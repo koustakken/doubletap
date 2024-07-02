@@ -1,0 +1,31 @@
+@import './fonts.scss';
+@import './reset.scss';
+@import './vars.scss';
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Geometria', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 47px;
+  padding: 75px 130px;
+  h1 {
+    font-size: 40px;
+    line-height: 50px;
+    font-weight: 700;
+  }
+}
+
+.settings {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
