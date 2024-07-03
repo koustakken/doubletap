@@ -1,0 +1,29 @@
+.root {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+
+  &.red {
+    background: var(--red);
+  }
+
+  &.blue {
+    background: var(--blue);
+  }
+
+  &.green {
+    background: var(--green);
+  }
+
+  &.yellow {
+    background: var(--yellow);
+  }
+
+  &.orange {
+    background: var(--orange);
+  }
+
+  &.black {
+    background: var(--black);
+  }
+}

@@ -4,46 +4,54 @@ import { Icon } from '../Icon/Icon'
 import styles from './DropDown.module.scss'
 import { DropDownItem } from './DropDownItem/DropDownItem'
 
+export type Property = {
+  label: string
+  sortType: string
+}
+
 interface DropDownProps {
   className?: string
+  properties: Property[]
+  onSelectSortType: (property: Property | null) => void
 }
 
 export const DropDown = (props: DropDownProps) => {
-  const [isOpen, setIsOpen] = useState(true)
-  const [selectedProperty, setSelectedProperty] = useState(0)
-
-  const properties = [
-    'Имя Я-А',
-    'Сначала моложе',
-    'Сначала старше',
-    'Высокий рейтинг',
-    'Низкий рейтинг',
-  ]
+  const { properties, className, onSelectSortType } = props
+  const [isOpen, setIsOpen] = useState(false)
+  const [selectedProperty, setSelectedProperty] = useState<string | null>(null)
 
   const handleClick = () => {
     setIsOpen(!isOpen)
   }
 
   const handleSelect = (index: number) => {
-    setSelectedProperty(index)
+    const selectedSortType = properties[index].sortType
+
+    if (selectedSortType === selectedProperty) {
+      setSelectedProperty(null)
+      onSelectSortType(null)
+    } else {
+      setSelectedProperty(selectedSortType)
+      onSelectSortType(properties[index])
+    }
+
     setIsOpen(false)
   }
 
-  const { className } = props
   return (
     <div className={styles.root}>
-      <div className={styles.select + ' ' + className} onClick={handleClick}>
+      <div className={`${styles.select} ${className}`} onClick={handleClick}>
         <span>Имя Я-А</span>
         <Icon src="./sort-icon.svg" alt="dropdown-icon" />
       </div>
       {isOpen && (
         <div className={styles.dropdown}>
-          {properties.map((property) => (
+          {properties.map((property, index) => (
             <DropDownItem
-              key={property}
-              label={property}
-              onClick={() => handleSelect(properties.indexOf(property))}
-              selected={selectedProperty === properties.indexOf(property)}
+              key={property.label}
+              label={property.label}
+              onClick={() => handleSelect(index)}
+              selected={property.sortType === selectedProperty}
             />
           ))}
         </div>

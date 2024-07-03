@@ -2,10 +2,7 @@ import { ChangeEvent, InputHTMLAttributes, memo } from 'react'
 import styles from './Input.module.scss'
 import { Icon } from '../Icon/Icon'
 
-type HTMLInputProps = Omit<
-  InputHTMLAttributes<HTMLInputElement>,
-  'value' | 'onChange'
->
+type HTMLInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'>
 
 interface InputProps extends HTMLInputProps {
   value?: string
@@ -15,15 +12,7 @@ interface InputProps extends HTMLInputProps {
 }
 
 export const Input = memo((props: InputProps) => {
-  const {
-    value,
-    onChange,
-    type = 'text',
-    placeholder,
-    icon,
-    className,
-    ...otherProps
-  } = props
+  const { value, onChange, type = 'text', placeholder, icon, className, ...otherProps } = props
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.value)
@@ -32,13 +21,7 @@ export const Input = memo((props: InputProps) => {
   return (
     <div className={styles.root + ' ' + className}>
       {icon && <Icon src={icon} alt={icon} className={styles.icon} />}
-      <input
-        type={type}
-        value={value}
-        onChange={onChangeHandler}
-        placeholder={placeholder}
-        {...otherProps}
-      />
+      <input type={type} value={value} onChange={onChangeHandler} placeholder={placeholder} {...otherProps} />
     </div>
   )
 })
