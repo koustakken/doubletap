@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
-import { Student } from './students'
 
 export type Column = {
   title: string
   dataIndex: string
-  render?: (value: string | number | Student) => ReactNode
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  render?: (value: any) => ReactNode
 }
