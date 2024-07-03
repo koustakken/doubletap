@@ -1,17 +1,20 @@
 import React from 'react'
+import { observer } from 'mobx-react'
 import { Column } from '../../@types/columns'
 import { Student } from '../../@types/students'
 import styles from './Table.module.scss'
 import { TableButton } from '../ui/TableButton/TableButton'
+import StudentStore from '../../stores/StudentStore'
 
 interface TableProps {
   className?: string
-  onDelete?: (id: number) => void
   columns: Column[]
   data: Student[]
 }
 
-export const Table: React.FC<TableProps> = ({ className, columns, data, onDelete }) => {
+export const Table: React.FC<TableProps> = observer(({ className, columns, data }) => {
+  const { handleDelete } = StudentStore
+
   const renderHeader = () => (
     <tr>
       {columns.map((column) => (
@@ -43,7 +46,7 @@ export const Table: React.FC<TableProps> = ({ className, columns, data, onDelete
           return <td key={dataIndex}>{value}</td>
         })}
         <td>
-          <TableButton icon="./delete-icon.svg" onClick={() => onDelete?.(row.id)} />
+          <TableButton icon="./delete-icon.svg" onClick={() => handleDelete(row.id)} />
         </td>
       </tr>
     ))
@@ -55,4 +58,4 @@ export const Table: React.FC<TableProps> = ({ className, columns, data, onDelete
       <tbody>{renderRows()}</tbody>
     </table>
   )
-}
+})
