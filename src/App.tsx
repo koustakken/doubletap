@@ -8,7 +8,7 @@ import { DropDown, Property } from './components/ui/DropDown/DropDown'
 import { Input } from './components/ui/Input/Input'
 import { Column } from './@types/columns'
 import { StudentsList } from './components/StudentsList/StudentsList'
-import WindowStore from './stores/WindowStore'
+import windowStore from './stores/WindowStore'
 import { useEffect } from 'react'
 
 const columns: Column[] = [
@@ -48,21 +48,20 @@ const columns: Column[] = [
 ]
 
 const App = observer(() => {
-  const { isMobile, destroy } = WindowStore
+  const { isMobile } = windowStore
   const { loading, searchTerm, sortProperties, sortedData } = studentStore
 
   useEffect(() => {
     const handleResize = () => {
-      WindowStore.handleResize()
+      windowStore.handleResize()
     }
 
     window.addEventListener('resize', handleResize)
 
     return () => {
       window.removeEventListener('resize', handleResize)
-      destroy()
     }
-  }, [destroy])
+  }, [])
 
   const handleSearchTermChange = (term: string) => {
     studentStore.setSearchTerm(term)
