@@ -3,6 +3,7 @@ import { Icon } from '../Icon/Icon'
 
 import styles from './DropDown.module.scss'
 import { DropDownItem } from './DropDownItem/DropDownItem'
+import WindowStore from '../../../stores/WindowStore'
 
 export type Property = {
   label: string
@@ -16,6 +17,7 @@ interface DropDownProps {
 }
 
 export const DropDown = (props: DropDownProps) => {
+  const { isMobile } = WindowStore
   const { properties, className, onSelectSortType } = props
   const [isOpen, setIsOpen] = useState(false)
   const [selectedProperty, setSelectedProperty] = useState<string | null>(null)
@@ -41,7 +43,7 @@ export const DropDown = (props: DropDownProps) => {
   return (
     <div className={styles.root}>
       <div className={`${styles.select} ${className}`} onClick={handleClick}>
-        <span>Имя Я-А</span>
+        {!isMobile && <span>Имя Я-А</span>}
         <Icon src="./sort-icon.svg" alt="dropdown-icon" />
       </div>
       {isOpen && (

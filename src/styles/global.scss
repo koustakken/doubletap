@@ -29,3 +29,17 @@ body {
   justify-content: space-between;
   gap: 20px;
 }
+
+@media screen and (max-width: 768px) {
+  .wrapper {
+    padding: 39px 20px;
+    gap: 22px;
+  }
+
+  .settings {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+  }
+}
