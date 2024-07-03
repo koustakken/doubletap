@@ -8,14 +8,6 @@ import { DropDown, Property } from './components/ui/DropDown/DropDown'
 import { Input } from './components/ui/Input/Input'
 import { Column } from './@types/columns'
 
-const sortProperties: Property[] = [
-  { label: 'Имя Я-А', sortType: 'name' },
-  { label: 'Сначала моложе', sortType: 'birthday' },
-  { label: 'Сначала старше', sortType: 'birthday-reverse' },
-  { label: 'Высокий рейтинг', sortType: 'rating' },
-  { label: 'Низкий рейтинг', sortType: 'rating-reverse' }
-]
-
 const columns: Column[] = [
   {
     title: '',
@@ -53,7 +45,7 @@ const columns: Column[] = [
 ]
 
 const App = observer(() => {
-  const { loading, searchTerm } = studentStore
+  const { loading, searchTerm, sortProperties, sortedData } = studentStore
 
   const handleSearchTermChange = (term: string) => {
     studentStore.setSearchTerm(term)
@@ -84,7 +76,7 @@ const App = observer(() => {
           />
           <DropDown properties={sortProperties} onSelectSortType={handleSortTypeChange} />
         </div>
-        {loading ? <p>Loading...</p> : <Table columns={columns} />}
+        {loading ? <p>Loading...</p> : <Table columns={columns} data={sortedData} />}
       </div>
     </>
   )

@@ -1,37 +1,44 @@
-import { makeAutoObservable, observable } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 import { Student } from '../@types/students'
 import { axiosInstance } from '../axios/config'
 import { calculateAge } from '../@libs/calcAge'
+import { Property } from '../components/ui/DropDown/DropDown'
 
 class StudentStore {
   students: Student[] = []
   searchTerm: string = ''
-  @observable sortedData: Student[] = []
+  sortedData: Student[] = []
   sortType: string | null = null
   loading: boolean = true
+
+  sortProperties: Property[] = [
+    { label: 'Имя Я-А', sortType: 'name' },
+    { label: 'Сначала моложе', sortType: 'birthday' },
+    { label: 'Сначала старше', sortType: 'birthday-reverse' },
+    { label: 'Высокий рейтинг', sortType: 'rating' },
+    { label: 'Низкий рейтинг', sortType: 'rating-reverse' },
+    { label: 'По любимому цвету', sortType: 'color' }
+  ]
 
   constructor() {
     makeAutoObservable(this)
     this.getStudents()
+    this.handleDelete = this.handleDelete.bind(this)
   }
 
   async getStudents() {
     try {
-      console.log('@start')
       const localStorageData: Student[] = JSON.parse(localStorage.getItem('students') || '[]')
       if (localStorageData.length) {
-        console.log('@localstore', localStorageData)
         this.students = localStorageData
         this.sortedData = this.students
         this.loading = false
       } else {
-        console.log('@fetch')
         const response = await axiosInstance.get('/persons')
-        const data = response.data.students
+        const data = await response.data.students
         this.students = data
         this.sortedData = this.students
         this.loading = false
-        console.log('@data', data)
         localStorage.setItem('students', JSON.stringify(data))
       }
     } catch (error) {
@@ -79,6 +86,9 @@ class StudentStore {
         case 'rating-reverse':
           this.sortedData = [...this.students].sort((a, b) => (a.rating > b.rating ? 1 : -1))
           break
+        case 'color':
+          this.sortedData = [...this.students].sort((a, b) => (a.color > b.color ? 1 : -1))
+          break
         default:
           this.sortedData = this.students
           break
@@ -91,7 +101,6 @@ class StudentStore {
   }
 
   handleDelete(id: number) {
-    console.log(this.sortedData)
     localStorage.setItem('students', JSON.stringify(this.students.filter((student) => student.id !== id)))
     this.students = this.students.filter((student) => student.id !== id)
     this.filterStudents()

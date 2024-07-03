@@ -1,6 +1,5 @@
 import styles from './TableButton.module.scss'
 import { Icon } from '../Icon/Icon'
-// import { Student } from '../../../@types/students'
 
 interface TableButtonProps {
   onClick: () => void

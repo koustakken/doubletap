@@ -9,10 +9,11 @@ import StudentStore from '../../stores/StudentStore'
 interface TableProps {
   className?: string
   columns: Column[]
+  data: Student[]
 }
 
-export const Table: React.FC<TableProps> = observer(({ className, columns }) => {
-  const { sortedData, handleDelete } = StudentStore
+export const Table: React.FC<TableProps> = observer(({ className, columns, data }) => {
+  const { handleDelete } = StudentStore
 
   const renderHeader = () => (
     <tr>
@@ -24,7 +25,7 @@ export const Table: React.FC<TableProps> = observer(({ className, columns }) => 
   )
 
   const renderRows = () => {
-    if (sortedData.length === 0) {
+    if (data.length === 0) {
       return (
         <tr>
           <td colSpan={columns.length}>Ничего не найдено</td>
@@ -32,7 +33,7 @@ export const Table: React.FC<TableProps> = observer(({ className, columns }) => 
       )
     }
 
-    return sortedData.map((row: Student) => (
+    return data.map((row: Student) => (
       <tr key={row.id}>
         {columns.map((column) => {
           const { dataIndex, render } = column
